@@ -21,7 +21,7 @@ lazy val commonSettings = Seq(
   test in assembly := {}
 )
 
-lazy val borzoiTelegramBot = project
+lazy val borzoiTelegramBot = (project in file("./com/bborzoi/bot"))
   .settings(commonSettings: _*)
   .settings(normalizedName := "borzoi-telegram-bot")
   .settings(
@@ -31,19 +31,25 @@ lazy val borzoiTelegramBot = project
     )
   )
 
-lazy val borzoiExchanges = project
+lazy val borzoiExchanges = (project in file("./com/bborzoi/exchanges"))
   .settings(commonSettings: _*)
   .settings(normalizedName := "borzoi-exchanges")
   .settings(
     libraryDependencies ++= Seq(
       "com.typesafe.akka" %% "akka-actor" % "2.5.9",
       "com.typesafe.akka" %% "akka-stream" % "2.5.12",
+      "org.scala-lang.modules" %% "scala-xml" % "1.1.1",
+      "com.lucidchart" %% "xtract" % "2.0.1",
     )
   )
 
 
 lazy val root = project.in(file("."))
   .settings(commonSettings: _*)
+  .dependsOn(
+    borzoiTelegramBot,
+    borzoiExchanges
+  )
   .aggregate(
     borzoiTelegramBot,
     borzoiExchanges
