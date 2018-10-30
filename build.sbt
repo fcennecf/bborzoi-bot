@@ -6,6 +6,8 @@ lazy val commonSettings = Seq(
   organization := "com.github.tdMuninn",
   version := "0.1",
   libraryDependencies ++= Seq(
+    "com.typesafe.scala-logging" %% "scala-logging" % "3.9.0",
+    "ch.qos.logback" % "logback-classic" % "1.2.1",
     "org.backuity.clist" %% "clist-core" % "3.4.0",
     "org.backuity.clist" %% "clist-macros" % "3.4.0" % "provided",
     "org.scalatest" %% "scalatest" % "3.0.4" % Test

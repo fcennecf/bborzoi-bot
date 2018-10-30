@@ -1,17 +1,15 @@
 package com.bborzoi.exchanges
 
-import java.util.concurrent.TimeUnit
-
-import scala.concurrent._
 import akka._
 import akka.actor._
 import akka.stream._
 import akka.stream.scaladsl._
 import akka.stream.stage.{GraphStage, GraphStageLogic, InHandler, OutHandler}
-import akka.stream.scaladsl._
+import com.typesafe.scalalogging.Logger
+import org.slf4j.LoggerFactory
 
 import scala.collection.immutable.Iterable
-import scala.concurrent.duration.{Duration, FiniteDuration}
+import scala.concurrent._
 import scala.util.Random
 
 class Duplicator[I] extends GraphStage[FlowShape[I, I]] {
@@ -45,8 +43,11 @@ case class Apple(bad: Boolean)
 
 
 object ExchangeSyncStream {
-
   def run(): Unit = {
+
+    val logger = Logger(LoggerFactory.getLogger("ExchangeSyncStream"))
+    logger.debug(s"Prepare and run!")
+
     implicit val system: ActorSystem = ActorSystem()
     implicit val ec: ExecutionContextExecutor = system.dispatcher
     implicit val materializer: ActorMaterializer = ActorMaterializer()
