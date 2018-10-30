@@ -9,6 +9,6 @@ object ExchangesEva extends Command(
   name = "exchanges"
 ) with Eva {
   def run(): Unit = {
-    println("Sync...")
+    ExchangeSyncStream.run()
   }
 }

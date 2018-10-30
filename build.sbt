@@ -36,9 +36,10 @@ lazy val borzoiExchanges = (project in file("./com/bborzoi/exchanges"))
   .settings(normalizedName := "borzoi-exchanges")
   .settings(
     libraryDependencies ++= Seq(
+      "org.scala-lang.modules" %% "scala-xml" % "1.1.1",
       "com.typesafe.akka" %% "akka-actor" % "2.5.9",
       "com.typesafe.akka" %% "akka-stream" % "2.5.12",
-      "org.scala-lang.modules" %% "scala-xml" % "1.1.1",
+      "com.softwaremill.sttp" %% "akka-http-backend" % "1.3.8",
       "com.lucidchart" %% "xtract" % "2.0.1",
     )
   )
