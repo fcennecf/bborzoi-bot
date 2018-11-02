@@ -12,7 +12,7 @@ import scala.collection.immutable.Iterable
 import scala.concurrent._
 import scala.util.Random
 
-class Duplicator[I] extends GraphStage[FlowShape[I, I]] {
+class Duplicator[I](message: String) extends GraphStage[FlowShape[I, I]] {
 
   val in = Inlet[I]("Duplicator.in")
   val out: Outlet[I] = Outlet[I]("Duplicator.out")
@@ -25,7 +25,7 @@ class Duplicator[I] extends GraphStage[FlowShape[I, I]] {
       setHandler(in, new InHandler {
         override def onPush(): Unit = {
           val elem = grab(in)
-          print(s"Duplicator ${elem}")
+          println(s"Duplicator ${elem} ${message}")
           val l = Iterable(elem, elem)
           emitMultiple(out, l)
         }
@@ -57,7 +57,7 @@ object ExchangeSyncStream {
       Apple(Random.nextBoolean())
     }).take(4)
 
-    val duplicator = new Duplicator
+    val duplicator = new Duplicator("ololo")
 
     val goodApples = Sink.foreach[Apple](value => println(s"good apple ${value}"))
     val badApples = Sink.foreach[Apple](value => println(s"bad apple ${value}"))
@@ -72,7 +72,7 @@ object ExchangeSyncStream {
             import GraphDSL.Implicits._
 
             val broadcast = builder.add(Partition[Apple](2, apple => if (apple.bad) 1 else 0))
-            val multiply = builder.add(new Duplicator[Apple])
+            val multiply = builder.add(new Duplicator[Apple]("ololo2"))
 
             source ~> switch ~> broadcast.in
             broadcast.out(0) ~> badStream
