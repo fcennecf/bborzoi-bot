@@ -1,5 +1,8 @@
 name := "bborzoi_bot"
 
+addCompilerPlugin(
+  "org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full
+)
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.12.7",
@@ -29,7 +32,10 @@ lazy val borzoiTelegramBot = (project in file("./com/bborzoi/bot"))
   .settings(
     libraryDependencies ++= Seq(
       "com.bot4s" %% "telegram-core" % "4.0.0-RC1",
-      "com.bot4s" %% "telegram-akka" % "4.0.0-RC1"
+      "com.bot4s" %% "telegram-akka" % "4.0.0-RC1",
+      "io.circe" %% "circe-core" % "0.10.1",
+      "io.circe" %% "circe-generic" % "0.10.1",
+      "io.circe" %% "circe-parser" % "0.10.1"
     )
   )
 
