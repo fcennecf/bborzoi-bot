@@ -24,11 +24,14 @@ object TelegramBotEva extends Command(
     val bot = BBorzoiBot(config)
     val eol = bot.run()
 
-    println("Running...")
-    scala.io.StdIn.readLine()
+    sys.addShutdownHook({
+      println("Shutdown bot ...")
+      bot.shutdown()
+      Await.result(eol, Duration.Inf)
+    })
 
-    bot.shutdown()
-    Await.result(eol, Duration.Inf)
+    println("Bot running ...")
+    while (true) {}
 
   }
 }
