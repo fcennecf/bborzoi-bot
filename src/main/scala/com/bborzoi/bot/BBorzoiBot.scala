@@ -9,7 +9,8 @@ import com.typesafe.config.Config
 
 case class Negotiators(
                         dog: DogParley,
-                        witcher: WitcherParley
+                        witcher: WitcherParley,
+                        stock: ExchangeCoursesParley
                       )
 
 
@@ -28,10 +29,16 @@ class BBorzoiBot(val token: String, val negotiators: Negotiators) extends Telegr
 
   onMessage { implicit msg: Message =>
     val authorName: Option[String] = msg.from.map(u => u.firstName)
-     msg.text
-       .flatMap(authorMessage => negotiators.witcher.say(authorMessage, authorName))
-       .map(s => reply(s))
-       .getOrElse(None)
+    msg.text
+      .flatMap(authorMessage => negotiators.witcher.say(authorMessage, authorName))
+      .map(s => reply(s))
+      .getOrElse(None)
+  }
+
+  onCommand('clips | 'clip | 'binder) { implicit msg =>
+    withArgs { args =>
+      replyMd(negotiators.stock.say())
+    }
   }
 }
 
@@ -42,7 +49,14 @@ object BBorzoiBot {
       config.getString("bot.token"),
       Negotiators(
         DogParley(),
-        WitcherParley(config.getString("bot.quotes-withcer"))
+        WitcherParley(
+          config.getString("bot.quotes-withcer")
+        ),
+        ExchangeCoursesParley(
+          config.getString("cbr-storage"),
+          "CHF" :: "EUR" :: "USD" :: Nil
+        )
+
       )
     )
   }

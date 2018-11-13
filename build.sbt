@@ -13,6 +13,8 @@ lazy val commonSettings = Seq(
     "ch.qos.logback" % "logback-classic" % "1.2.1",
     "org.backuity.clist" %% "clist-core" % "3.4.0",
     "org.backuity.clist" %% "clist-macros" % "3.4.0" % "provided",
+    //    "com.github.nscala-time" %% "nscala-time" % "2.20.0",
+    "org.scala-lang.modules" %% "scala-xml" % "1.1.1",
     "org.scalatest" %% "scalatest" % "3.0.4" % Test
   ),
   scalacOptions ++= Seq(
@@ -44,7 +46,6 @@ lazy val borzoiExchanges = (project in file("./com/bborzoi/exchanges"))
   .settings(normalizedName := "borzoi-exchanges")
   .settings(
     libraryDependencies ++= Seq(
-      "org.scala-lang.modules" %% "scala-xml" % "1.1.1",
       "com.typesafe.akka" %% "akka-actor" % "2.5.9",
       "com.typesafe.akka" %% "akka-stream" % "2.5.12",
       "com.softwaremill.sttp" %% "akka-http-backend" % "1.3.8",

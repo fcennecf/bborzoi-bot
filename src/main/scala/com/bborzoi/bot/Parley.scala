@@ -1,7 +1,11 @@
 package com.bborzoi.bot
 
 import java.io.IOException
+import java.time.ZonedDateTime
 
+import com.bborzoi.DateTimeGMT
+import com.bborzoi.exchanges.ExchangeTodayGlance
+import com.bborzoi.exchanges.cbr.ExchangeCourses
 import io.circe
 import io.circe.generic.JsonCodec
 import io.circe.parser.decode
@@ -58,5 +62,49 @@ object WitcherParley {
       case Right(quotes) => quotes
       case _ => throw new IOException("Error happen when loaded quotes from json")
     }
+  }
+}
+
+
+class ExchangeCoursesParley(etg: ExchangeTodayGlance) {
+  var cachedCurrentExchange = ExchangeCourses(DateTimeGMT.nowDate, Nil)
+
+  def say(): String = {
+    val currentExchange = processExchangeCoursesRequest(DateTimeGMT.nowDate)
+    markdownFormat(currentExchange)
+  }
+
+  private def markdownFormat(currentExchange: ExchangeCourses) = {
+    val review = StringBuilder.newBuilder
+
+    review.append(
+      f"""Exchange actual on
+         |***${currentExchange.requested.getDayOfMonth}*** of
+         |***${currentExchange.requested.getMonth}***
+         |(RUB)
+         |""".stripMargin.replaceAll("\n", " ")
+    )
+    for (quotation <- currentExchange.quotations)
+      review.append(f"\n    ***${quotation.isoName}***: ${quotation.course}")
+
+    review.toString
+  }
+
+  private def processExchangeCoursesRequest(dateExchange: ZonedDateTime): ExchangeCourses = {
+    if (cachedCurrentExchange.requested != dateExchange || cachedCurrentExchange.quotations.isEmpty)
+      cachedCurrentExchange = etg.lookAtObservableCurrenciesTodayFromFile match {
+        case Right(todayExchange) => todayExchange
+        case Left(_) => cachedCurrentExchange
+      }
+    cachedCurrentExchange
+  }
+}
+
+
+object ExchangeCoursesParley {
+  def apply(storageCbrFolder: String, observableCurrencies: List[String]): ExchangeCoursesParley = {
+    new ExchangeCoursesParley(
+      new ExchangeTodayGlance(storageCbrFolder, observableCurrencies)
+    )
   }
 }

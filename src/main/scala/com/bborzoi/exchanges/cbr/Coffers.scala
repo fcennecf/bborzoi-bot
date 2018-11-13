@@ -1,6 +1,6 @@
 package com.bborzoi.exchanges.cbr
 
-import java.util.Date
+import java.time.ZonedDateTime
 
 
 case class Currency(
@@ -12,6 +12,6 @@ case class Currency(
                    )
 
 case class ExchangeCourses(
-                            requested: Date,
+                            requested: ZonedDateTime,
                             quotations: List[Currency]
                           )
