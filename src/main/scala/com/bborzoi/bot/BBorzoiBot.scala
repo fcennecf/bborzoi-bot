@@ -73,7 +73,7 @@ object BBorzoiBot {
       Negotiators(
         DogParley(),
         WitcherParley(
-          config.getString("bot.quotes-withcer")
+          config.getString("bot.quotes-witcher")
         ),
         ExchangeCoursesParley(
           config.getString("bot.cbr-storage"),
