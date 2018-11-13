@@ -1,3 +1,5 @@
+import sbtassembly.AssemblyPlugin.autoImport.assemblyJarName
+
 name := "bborzoi_bot"
 
 addCompilerPlugin(
@@ -7,7 +9,7 @@ addCompilerPlugin(
 lazy val commonSettings = Seq(
   scalaVersion := "2.12.7",
   organization := "com.github.tdMuninn",
-  version := "0.1",
+  version := "0.2",
   libraryDependencies ++= Seq(
     "com.typesafe.scala-logging" %% "scala-logging" % "3.9.0",
     "ch.qos.logback" % "logback-classic" % "1.2.1",
@@ -25,7 +27,8 @@ lazy val commonSettings = Seq(
     "-language:implicitConversions",
     "-language:higherKinds",
   ),
-  test in assembly := {}
+  test in assembly := {},
+  assemblyJarName in assembly := s"${name.value}_${scalaVersion.value}-assembly-${version.value}.jar"
 )
 
 lazy val borzoiTelegramBot = (project in file("./com/bborzoi/bot"))
@@ -33,8 +36,8 @@ lazy val borzoiTelegramBot = (project in file("./com/bborzoi/bot"))
   .settings(normalizedName := "borzoi-telegram-bot")
   .settings(
     libraryDependencies ++= Seq(
-      "com.bot4s" %% "telegram-core" % "4.0.0-RC1",
-      "com.bot4s" %% "telegram-akka" % "4.0.0-RC1",
+      "com.bot4s" %% "telegram-core" % "4.0.0-RC2",
+      "com.bot4s" %% "telegram-akka" % "4.0.0-RC2",
       "io.circe" %% "circe-core" % "0.10.1",
       "io.circe" %% "circe-generic" % "0.10.1",
       "io.circe" %% "circe-parser" % "0.10.1"

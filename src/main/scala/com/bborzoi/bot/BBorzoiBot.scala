@@ -1,9 +1,11 @@
 package com.bborzoi.bot
 
-import com.bot4s.telegram.api.declarative.Commands
+import com.bborzoi.DateTimeGMT
+import com.bot4s.telegram.api.declarative.{Commands, InlineQueries}
 import com.bot4s.telegram.api.{ChatActions, Polling, TelegramBot}
 import com.bot4s.telegram.clients.ScalajHttpClient
-import com.bot4s.telegram.models._
+import com.bot4s.telegram.methods.ParseMode
+import com.bot4s.telegram.models.{InputTextMessageContent, _}
 import com.typesafe.config.Config
 
 
@@ -17,6 +19,7 @@ case class Negotiators(
 class BBorzoiBot(val token: String, val negotiators: Negotiators) extends TelegramBot
   with Polling
   with Commands
+  with InlineQueries
   with ChatActions {
   val client = new ScalajHttpClient(token)
 
@@ -39,6 +42,26 @@ class BBorzoiBot(val token: String, val negotiators: Negotiators) extends Telegr
     withArgs { args =>
       replyMd(negotiators.stock.say())
     }
+  }
+
+  onInlineQuery { implicit iq =>
+
+    val textMessage = InputTextMessageContent(
+      negotiators.stock.say(),
+      Some(ParseMode.Markdown),
+      Some(true)
+    )
+
+    val clips = InlineQueryResultArticle(
+      DateTimeGMT.nowDate.toString,
+      "clips",
+      textMessage
+    )
+
+    val results = Seq(clips)
+
+    answerInlineQuery(results, Some(3600))
+
   }
 }
 
