@@ -53,7 +53,7 @@ object BBorzoiBot {
           config.getString("bot.quotes-withcer")
         ),
         ExchangeCoursesParley(
-          config.getString("cbr-storage"),
+          config.getString("bot.cbr-storage"),
           "CHF" :: "EUR" :: "USD" :: Nil
         )
 
