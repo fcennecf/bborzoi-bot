@@ -18,7 +18,9 @@ class ExchangeTodayGlance(
   def lookAtObservableCurrenciesFromFile(xmlFilePath: String): Either[ZonedDateTime, ExchangeCourses] = {
     todayExchangeCoursesFromXml(xmlFilePath)
       .map(exchangeCourses => {
-        val currencies = exchangeCourses.quotations.filter(isObservableCurrency)
+        val currencies = exchangeCourses.quotations
+          .filter(isObservableCurrency)
+          .map(c => c.copy(course = c.course / c.nominal, nominal = 1))
         ExchangeCourses(exchangeCourses.requested, currencies)
       })
   }

@@ -77,7 +77,7 @@ object BBorzoiBot {
         ),
         ExchangeCoursesParley(
           config.getString("bot.cbr-storage"),
-          "CHF" :: "EUR" :: "USD" :: Nil
+          "CHF" :: "EUR" :: "USD" :: "CNY" :: Nil
         )
 
       )
