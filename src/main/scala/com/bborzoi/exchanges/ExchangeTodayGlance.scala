@@ -5,10 +5,9 @@ import java.time.ZonedDateTime
 import com.bborzoi.DateTimeGMT
 import com.bborzoi.exchanges.cbr.{CbrXmlParser, Currency, ExchangeCourses}
 
-class ExchangeTodayGlance(
-                           storageCbrFolder: String,
-                           observableCurrencies: List[String]
-                         ) extends CbrXmlParser {
+class ExchangeTodayGlance(storageCbrFolder: String,
+                          observableCurrencies: List[String])
+  extends CbrXmlParser {
 
   def isObservableCurrency(c: Currency): Boolean = observableCurrencies.exists(c.isoName.contains)
 

@@ -4,10 +4,12 @@ import com.bborzoi.cli.Eva
 import org.backuity.clist.Command
 
 
-object ExchangesEva extends Command(
-  description = "Synchronize currency exchanges for financial markets",
-  name = "exchanges"
-) with Eva {
+object ExchangesEva
+  extends Command(
+    description = "Synchronize currency exchanges for financial markets",
+    name = "exchanges"
+  )
+    with Eva {
   def run(): Unit = {
     ExchangeSyncStream.run()
   }

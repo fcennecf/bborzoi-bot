@@ -31,7 +31,6 @@ object DogParley {
 @JsonCodec case class WitcherQuotes(quotes: List[String])
 
 class WitcherParley(dictionary: WitcherQuotes) extends Parley {
-
   def say(message: String, authorName: Option[String]): Option[String] = {
     val keys = List("!", "нюанс")
     if (keys.exists(message.toLowerCase.contains)) {
@@ -67,6 +66,7 @@ object WitcherParley {
 
 
 class ExchangeCoursesParley(etg: ExchangeTodayGlance) {
+
   var cachedCurrentExchange = ExchangeCourses(DateTimeGMT.nowDate, Nil)
 
   def say(): String = {

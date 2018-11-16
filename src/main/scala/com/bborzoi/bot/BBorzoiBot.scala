@@ -8,19 +8,21 @@ import com.bot4s.telegram.methods.ParseMode
 import com.bot4s.telegram.models.{InputTextMessageContent, _}
 import com.typesafe.config.Config
 
-
-case class Negotiators(
-                        dog: DogParley,
-                        witcher: WitcherParley,
-                        stock: ExchangeCoursesParley
-                      )
+import scala.collection.JavaConverters._
 
 
-class BBorzoiBot(val token: String, val negotiators: Negotiators) extends TelegramBot
-  with Polling
-  with Commands
-  with InlineQueries
-  with ChatActions {
+case class Negotiators(dog: DogParley,
+                       witcher: WitcherParley,
+                       stock: ExchangeCoursesParley)
+
+
+class BBorzoiBot(val token: String, val negotiators: Negotiators)
+  extends TelegramBot
+    with Polling
+    with Commands
+    with InlineQueries
+    with ChatActions {
+
   val client = new ScalajHttpClient(token)
 
   onMessage { implicit msg: Message =>
@@ -77,7 +79,7 @@ object BBorzoiBot {
         ),
         ExchangeCoursesParley(
           config.getString("bot.cbr-storage"),
-          "CHF" :: "EUR" :: "USD" :: "CNY" :: Nil
+          config.getStringList("bot.cbr-currencies").asScala.toList
         )
 
       )

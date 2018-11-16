@@ -9,10 +9,9 @@ import org.backuity.clist.Command
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
-object TelegramBotEva extends Command(
-  description = "Telegram bot demon",
-  name = "telegram-bot"
-) with Eva {
+object TelegramBotEva
+  extends Command(description = "Telegram bot demon", name = "telegram-bot")
+    with Eva {
   def run(): Unit = {
     val defaultConfig = ConfigFactory.load("bot.conf")
     val config: Config = Option(System.getProperty("bot.conf"))
@@ -32,6 +31,5 @@ object TelegramBotEva extends Command(
 
     println("Bot running ...")
     while (true) {}
-
   }
 }
