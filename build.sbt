@@ -9,7 +9,7 @@ addCompilerPlugin(
 lazy val commonSettings = Seq(
   scalaVersion := "2.12.7",
   organization := "com.github.tdMuninn",
-  version := "0.2",
+  version := "0.2.2",
   libraryDependencies ++= Seq(
     "com.typesafe.scala-logging" %% "scala-logging" % "3.9.0",
     "ch.qos.logback" % "logback-classic" % "1.2.1",

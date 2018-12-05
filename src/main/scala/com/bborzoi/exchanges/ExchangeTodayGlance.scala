@@ -26,6 +26,9 @@ class ExchangeTodayGlance(storageCbrFolder: String,
 
   def sourceCbrXmlFile: String = {
     val td = DateTimeGMT.nowDate
-    f"$storageCbrFolder/${td.getYear}/${td.getMonthValue}/${td.getDayOfMonth}.xml"
+    val day = td.getDayOfMonth
+    val dayWithZero = if (day > 9) f"$day"else f"0$day"
+
+    f"$storageCbrFolder/${td.getYear}/${td.getMonthValue}/${dayWithZero}.xml"
   }
 }
