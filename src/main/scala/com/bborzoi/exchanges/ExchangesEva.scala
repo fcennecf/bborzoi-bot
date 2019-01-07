@@ -11,6 +11,6 @@ object ExchangesEva
   )
     with Eva {
   def run(): Unit = {
-    ExchangeSyncStream.run()
+    println("ExchangeSyncStream")
   }
 }

@@ -26,9 +26,13 @@ class ExchangeTodayGlance(storageCbrFolder: String,
 
   def sourceCbrXmlFile: String = {
     val td = DateTimeGMT.nowDate
-    val day = td.getDayOfMonth
-    val dayWithZero = if (day > 9) f"$day"else f"0$day"
+    val twoDigitDay = buildTwoDigitNumber(td.getDayOfMonth)
+    val twoDigitMonth = buildTwoDigitNumber(td.getMonthValue)
 
-    f"$storageCbrFolder/${td.getYear}/${td.getMonthValue}/${dayWithZero}.xml"
+    f"$storageCbrFolder/${td.getYear}/$twoDigitMonth/$twoDigitDay.xml"
+  }
+
+  private def buildTwoDigitNumber(number: Int) = {
+    if (number > 9) f"$number" else f"0$number"
   }
 }
